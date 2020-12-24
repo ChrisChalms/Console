@@ -1,11 +1,13 @@
 # Console
 
-Console is an in-game console for Unity with support viewing Unity's logs, as well as stacktraces. It can also be used for registering and executing commands at runtime e.g. SpawnEnemies 10. [Video of version 0.1](https://youtu.be/fEte3S5vBX8).
+Console is an advanced in-game console for Unity with support viewing Unity's logs, as well as stacktraces. It can also be used for registering and executing commands at runtime e.g. SpawnEnemies 10. [Video of version 0.2](https://youtu.be/1PUk6u48Rak).
 
 ## Usage
 It's very easy to use and setup. Just copy the root folder 'Console' into your project and navigate to DefaultConsole->Prefabs and drag the Console prefab anywhere in the scene. If there's not an EventSystem in the scene, create one by right clikcing in the hierarchy, selected UI->Event System . That's it! The console will at runtime. You can force desktop or mobile views in the dropdown menu on the prefab, it defaults to autodetect.
 
 On desktop you press the backquote (`) to open/close the console, and on mobile there is a floating button on the left-hand side of the screen that opens the console. You can also move the button on mobile to keep it out of the way.
+
+You can use the up and down arrows on the keyboard, or the quick command buttons on mobile as of v0.2, to quickly enter the previous and next command entered. There's also the TAB button, as well as the quick command button on mobile from v0.2, to fill in a partial entered command. If there's more than one command that can be filled a list of all available commands that match the entered text will be shown
 
 ## Commands
 There a few default commands that the console comes with, but you can easily add your own. Below are the default commands:
@@ -25,16 +27,32 @@ There a few default commands that the console comes with, but you can easily add
 
 You can execute the commands by entering them into the console, or via script e.g. 
 
-```javascript
+```c#
     ConsoleCommands.ExecuteCommand("SpawnEnemies",  new string[]{ "10" });
 ```
 
 You can also add your own commands to suit your needs e.g.
 
-```javascript
+```c#
     ConsoleCommands.AddCommand("Name", methodToCall, "HelpText");
+
+    // Example
+    ConsoleCommands.AddCommand("SpawnEnemy", spawnEnemy, "Spawns a basic enemy for testing");
+
+    // Spawn a basic enemy
+    private void spawnEnemy(string[] args)
+    {
+        // Maybe parse some args here to get a more details enemy e.g. level, appearance, number of enemies,  or player offset
+        // ...
+        
+        // Spawn
+        var tempEnemy = Instantiate(enemyPrefab, _player.position + _defaultOffset);
+        tempEnemy.KillPlayer();
+    }
 ```
 
 ## TODO
-
-- I'd like to add a way to simply change the colour theme, maybe another scriptable object
+- ~~Quick command bar on mobile~~
+- Make a better example scene
+- Scriptable object to change the console's colours
+- Scriptable object to chagne the console's icons

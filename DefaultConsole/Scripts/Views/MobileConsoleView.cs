@@ -10,9 +10,13 @@ namespace CC.Console
     {
         [SerializeField] private MobileOpenConsoleButton _openButton;
         [SerializeField] private Button _submitButton;
+        [SerializeField] private Button _previousCommandButton;
+        [SerializeField] private Button _nextCommandButton;
+        [SerializeField] private Button _autoCompleteButton;
 
         #region MonoBehaviour
 
+        // Make debugging on PC easier
         private void Update()
         {
             // If we're active and the input field is selected, then test for inputs
@@ -35,6 +39,9 @@ namespace CC.Console
 
             _submitButton.onClick.AddListener(submitCommand);
             _commandInputField.onEndEdit.AddListener((s) => EndedCommandInput());
+            _previousCommandButton.onClick.AddListener(() => getCommandFromHistory(1));
+            _nextCommandButton.onClick.AddListener(() => getCommandFromHistory(-1));
+            _autoCompleteButton.onClick.AddListener(autoCompleteCommand);
         }
 
         #endregion
